@@ -1,0 +1,19 @@
+<% if new_link %>
+  <% action_url = links_url %>
+<% else %>
+  <% action_url = link_url(link) %>
+<% end %>
+
+<form action="<%= action_url %>" method="POST">
+  URL: <input name="link[url]" value="<%= link.url %>"><br>
+  Title: <input name="link[title]" value="<%= link.title %>"><br>
+  Body: <input name="link[body]" value="<%= link.body %>"><br><br>
+
+  <% subs.each do |sub| %>
+    <input type="checkbox" name="link[sub_ids][]" value="<%= sub.id %>" <%= "checked".html_safe if link.sub_ids.include?(sub.id) %>>
+    <%= sub.name %><br>
+  <% end %>
+
+  <input type="Submit" value="Submit">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+</form>

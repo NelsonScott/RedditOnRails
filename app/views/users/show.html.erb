@@ -1,0 +1,4 @@
+<h1><%= @user.name %></h1>
+
+<%= link_to "Subreddits", subs_url %> | <%= link_to "Create Subreddit", new_sub_url %>
+<%= button_to "Logout", session_url, method: :delete %>
