@@ -34,5 +34,4 @@ describe Sub do
   it "does not allow moderator_id to be mass assigned" do
     expect { Sub.new(moderator_id: 1) }.to raise_error(ActiveModel::MassAssignmentSecurity::Error)
   end
-
 end

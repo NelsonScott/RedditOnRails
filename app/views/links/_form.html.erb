@@ -14,6 +14,10 @@
     <%= sub.name %><br>
   <% end %>
 
+  <% unless new_link %>
+    <input type="hidden" name="_method" value="PUT">
+  <% end %>
+
   <input type="Submit" value="Submit">
   <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
 </form>

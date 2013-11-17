@@ -26,6 +26,11 @@ class LinksController < ApplicationController
   end
 
   def update
+    if @link.update_attributes(params[:link])
+      redirect_to @link
+    else
+      render :edit
+    end
   end
 
   private
