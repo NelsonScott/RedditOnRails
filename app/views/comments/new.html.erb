@@ -1,0 +1,8 @@
+<form action="<%= link_comments_url(params[:link_id]) %>" method="POST">
+  <textarea name="comment[body]"></textarea><br>
+  <input type="submit">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  <% if params[:parent_comment_id] %>
+    <input type="hidden" name="comment[parent_comment_id]" value="<%= params[:parent_comment_id] %>">
+  <% end %>
+</form>

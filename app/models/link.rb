@@ -9,6 +9,17 @@ class Link < ActiveRecord::Base
   belongs_to :user, inverse_of: :links
   has_many :link_subs, dependent: :destroy
   has_many :subs, through: :link_subs, source: :sub
+  has_many :comments, inverse_of: :user
+
+  def comments_by_parent
+    comments_by_parent = Hash.new { |hash, key| hash[key] = [] }
+
+    comments.each do |comment|
+      comments_by_parent[comment.parent_comment_id] << comment
+    end
+
+    comments_by_parent
+  end
 
   private
     def belongs_to_some_sub?

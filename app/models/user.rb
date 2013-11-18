@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
 
   has_many :subs, class_name: "Sub", foreign_key: :moderator_id, primary_key: :id, inverse_of: :moderator
   has_many :links, inverse_of: :user
+  has_many :comments, inverse_of: :user
 
   def password=(pw_string)
     self.password_digest = BCrypt::Password.create(pw_string)

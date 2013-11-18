@@ -21,7 +21,7 @@ describe Sub do
     expect(sub.moderator).to be(user)
   end
 
-  # Does this one test too much stuff at once
+  # Does this one test too much stuff at once?
   it "has_many links through link_subs" do
     user = FactoryGirl.create(:user)
     sub = user.subs.new(name: :sub)

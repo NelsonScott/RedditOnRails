@@ -1,2 +1,15 @@
 <%= link_to @link.title, @link.url %><br>
 Content: <%= @link.body %>
+
+<%= link_to "Comment on this link!", new_link_comment_url(params[:id]) %>
+
+
+<h2>Comments</h2>
+<ul>
+  <% comments_by_parent = @link.comments_by_parent %>
+  <% comments_by_parent[nil].each do |top_level_comments| %>
+    <li>
+      <%= comment_partial(top_level_comments, comments_by_parent) %>
+    </li>
+  <% end %>
+</ul>

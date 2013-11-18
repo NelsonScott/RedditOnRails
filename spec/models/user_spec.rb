@@ -2,17 +2,14 @@ require 'spec_helper'
 
 describe User do
 
-  it "shouldn't store the raw password under a password column" do
-    user = FactoryGirl.build(:user)
-
-    expect { user.password }.to raise_error(NoMethodError)
+  it "shouldn't allow mass assignment of password_digest" do
+    expect { User.new(password_digest: "password") }.to raise_error(ActiveModel::MassAssignmentSecurity::Error)
   end
 
-  it "shouldn't store the raw password in password_digest" do
-    user = FactoryGirl.build(:user, password: "password")
+  it "should create a password digest when a password is given" do
+    user = FactoryGirl.build(:user)
 
-    # If we don't call to_s it compares the BCrypt object.
-    expect(user.password_digest.to_s).to_not eq("password")
+    expect(user.password_digest).to_not be_nil
   end
 
   it "should create a session token after initialization of a user object" do
@@ -34,5 +31,14 @@ describe User do
     user = FactoryGirl.build(:user, password: "password")
 
     expect(user.is_password?("password")).to be_true
+  end
+
+  it "should have many links" do
+    user = FactoryGirl.create(:user)
+    sub = Sub.new(name: "Sub")
+    sub.moderator = user
+    sub.save
+
+    expect(user.subs).to include(sub)
   end
 end
