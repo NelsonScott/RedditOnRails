@@ -9,7 +9,7 @@ class Link < ActiveRecord::Base
   belongs_to :user, inverse_of: :links
   has_many :link_subs, dependent: :destroy
   has_many :subs, through: :link_subs, source: :sub
-  has_many :comments, inverse_of: :user
+  has_many :comments, inverse_of: :link
 
   has_many :user_votes, inverse_of: :link
 
