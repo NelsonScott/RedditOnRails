@@ -5,6 +5,10 @@ RedditOnRails::Application.routes.draw do
   resources :subs
   resources :links do
     resources :comments
+    member do
+      post "upvote"
+      post "downvote"
+    end
   end
   # The priority is based upon order of creation:
   # first created -> highest priority.

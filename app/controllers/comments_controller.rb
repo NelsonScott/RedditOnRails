@@ -14,6 +14,7 @@ class CommentsController < ApplicationController
   end
 
   def new
+    render :new
   end
 
   def show

@@ -1,21 +1,9 @@
-module BuildExtension
-  def build(params)
-    object = super(params)
-    object.link = proxy_association.owner.link
-
-    object
-  end
-
-  def create!(params)
-    object = build(params)
-    object.save!
-  end
-end
-
 class Comment < ActiveRecord::Base
-  attr_accessible :body, :link_id, :parent_comment_id
+  attr_accessible :body, :parent_comment_id
 
   validates :body, presence: true
+  validates :user, presence: true
+  validates :link, presence: true
 
   belongs_to :link, inverse_of: :comments
   belongs_to :user, inverse_of: :comments
@@ -23,7 +11,6 @@ class Comment < ActiveRecord::Base
   has_many( :child_comments,
             class_name: "Comment",
             foreign_key: :parent_comment_id,
-            primary_key: :id,
-            extend: BuildExtension)
+            primary_key: :id)
   belongs_to :parent_comment, class_name: "Comment", foreign_key: :parent_comment_id, primary_key: :id
 end

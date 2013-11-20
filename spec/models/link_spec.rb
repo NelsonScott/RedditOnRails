@@ -1,34 +1,18 @@
 require 'spec_helper'
 
 describe Link do
-  it "knows who its owner is" do
+  it "knows who its owner is via inverse_of" do
     user = FactoryGirl.build(:user)
     link = user.links.new
 
     expect(link.user).to be(user)
   end
 
-  it "knows it has many subs" do
-    user = FactoryGirl.create(:user)
-    link = FactoryGirl.build(:link, user_id: user.id)
-    sub = link.subs.new(name: "A Sub")
+  it "should create an appropriate comments hash"
 
-    link.save
+  it { should have_many(:comments) }
+  it { should have_many(:user_votes) }
+  it { should have_many(:subs) }
 
-    expect(link.subs).to include(sub)
-  end
-
-  it "is invalid if it belongs to no subs" do
-    user = FactoryGirl.create(:user)
-    link = FactoryGirl.build(:link, user_id: user.id)
-    expect(link).to_not be_valid
-  end
-
-  it "is valid if it does have at least one sub" do
-    user = FactoryGirl.create(:user)
-    sub = FactoryGirl.create(:sub, moderator_id: user.id)
-    link = FactoryGirl.build(:link, user_id: user.id, sub_ids: [sub.id])
-
-    expect(link).to be_valid
-  end
+  it { should validate_presence_of(:subs) }
 end

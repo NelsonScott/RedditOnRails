@@ -33,12 +33,8 @@ describe User do
     expect(user.is_password?("password")).to be_true
   end
 
-  it "should have many links" do
-    user = FactoryGirl.create(:user)
-    sub = Sub.new(name: "Sub")
-    sub.moderator = user
-    sub.save
-
-    expect(user.subs).to include(sub)
-  end
+  it { should have_many(:subs) }
+  it { should have_many(:links) }
+  it { should have_many(:user_votes) }
+  it { should have_many(:comments) }
 end

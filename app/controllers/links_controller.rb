@@ -33,10 +33,19 @@ class LinksController < ApplicationController
     end
   end
 
+  def upvote
+  end
+
+  def downvote
+  end
+
   private
     def link_exists?
       @link = Link.find_by_id(params[:id])
       redirect_to subs_url unless @link
+    end
+
+    def vote
     end
 
     def user_owns_link?
