@@ -9,7 +9,6 @@ class LinksController < ApplicationController
   end
 
   def show
-    @votes = @link.user_votes.sum(:value)
     render :show
   end
 
@@ -45,7 +44,7 @@ class LinksController < ApplicationController
 
   private
     def link_exists?
-      @link = Link.find_by_id(params[:id])
+      @link = Link.includes(:user_votes).find_by_id(params[:id])
       redirect_to subs_url unless @link
     end
 

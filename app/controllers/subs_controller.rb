@@ -57,7 +57,7 @@ class SubsController < ApplicationController
     end
 
     def sub_exists?
-      @sub = Sub.find_by_id(params[:id])
+      @sub = Sub.includes(:links).find_by_id(params[:id])
       redirect_to subs_url unless @sub
     end
 end

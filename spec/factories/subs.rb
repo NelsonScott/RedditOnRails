@@ -3,5 +3,6 @@
 FactoryGirl.define do
   factory :sub do
     name { |n| Faker::Name.name }
+    association :moderator, factory: :user
   end
 end

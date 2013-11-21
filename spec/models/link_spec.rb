@@ -38,6 +38,4 @@ describe Link do
   it { should have_many(:link_subs) }
   it { should have_many(:user_votes) }
   it { should have_many(:subs).through(:link_subs) }
-
-  it { should validate_presence_of(:subs) }
 end

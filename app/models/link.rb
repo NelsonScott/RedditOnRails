@@ -22,4 +22,8 @@ class Link < ActiveRecord::Base
 
     comments_by_parent
   end
+
+  def votes
+    self.user_votes.sum(:value)
+  end
 end
