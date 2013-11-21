@@ -1,6 +1,6 @@
 class LinksController < ApplicationController
   before_filter :authenticate_user!, only: [:new, :create]
-  before_filter :link_exists?, only: [:edit, :show, :update]
+  before_filter :link_exists?, only: [:edit, :show, :update, :upvote, :downvote]
   before_filter :user_owns_link?, only: [:edit, :update]
 
   def new
@@ -9,6 +9,8 @@ class LinksController < ApplicationController
   end
 
   def show
+    @votes = @link.user_votes.sum(:value)
+    render :show
   end
 
   def create
@@ -34,9 +36,11 @@ class LinksController < ApplicationController
   end
 
   def upvote
+    vote(1)
   end
 
   def downvote
+    vote(-1)
   end
 
   private
@@ -45,7 +49,16 @@ class LinksController < ApplicationController
       redirect_to subs_url unless @link
     end
 
-    def vote
+    def vote(direction)
+      @user_vote = UserVote.find_by_link_id_and_user_id(@link.id, current_user.id)
+
+      if @user_vote
+        @user_vote.value == direction ? @user_vote.update_attributes(value: 0) : @user_vote.update_attributes(value: direction)
+      else
+        @link.user_votes.create(user_id: current_user.id, value: direction)
+      end
+
+      redirect_to @link
     end
 
     def user_owns_link?

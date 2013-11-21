@@ -1,4 +1,7 @@
 class SessionsController < ApplicationController
+  before_filter :new_user?, only: [:new, :create]
+  before_filter :authenticate_user!, only: [:destroy]
+
   def new
     @user = User.new
   end
@@ -9,15 +12,14 @@ class SessionsController < ApplicationController
       login_user!(@user)
       redirect_to @user
     else
-      flash[:errors] << "Invalid username or password."
-
+      flash.now[:errors] << "Invalid username or password."
       @user ||= User.new
       render :new
     end
   end
 
   def destroy
-    current_user && current_user.reset_session_token!
+    current_user.reset_session_token!
     session[:token] = nil
 
     redirect_to new_session_url

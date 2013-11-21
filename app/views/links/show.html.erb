@@ -1,10 +1,13 @@
-<%= link_to @link.title, @link.url %><br>
-Content: <%= @link.body %>
+<h1>(<%= @votes %>) <%= link_to @link.title, @link.url %> by <%= @link.user.name %></h1><br>
+Content: <%= @link.body %><br><br>
 
-<%= link_to "Comment on this link!", new_link_comment_url(params[:id]) %>
 
+<%= button_to "Upvote", action: :upvote %>
+<%= button_to "Downvote", action: :downvote %>
 
 <h2>Comments</h2>
+<%= link_to "Comment on this link!", new_link_comment_url(params[:id]) %><br><br>
+
 <ul>
   <% comments_by_parent = @link.comments_by_parent %>
   <% comments_by_parent[nil].each do |top_level_comments| %>

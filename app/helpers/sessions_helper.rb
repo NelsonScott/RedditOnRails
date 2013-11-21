@@ -10,9 +10,7 @@ module SessionsHelper
   end
 
   def authenticate_user!
-    unless current_user
-      redirect_to new_session_url
-    end
+    redirect_to new_session_url unless current_user
   end
 
   def new_user?
