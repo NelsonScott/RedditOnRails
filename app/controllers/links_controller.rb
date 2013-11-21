@@ -1,5 +1,5 @@
 class LinksController < ApplicationController
-  before_filter :authenticate_user!, only: [:new, :create]
+  before_filter :authenticate_user!, only: [:new, :create, :upvote, :downvote]
   before_filter :link_exists?, only: [:edit, :show, :update, :upvote, :downvote]
   before_filter :user_owns_link?, only: [:edit, :update]
 
