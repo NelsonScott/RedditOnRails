@@ -5,6 +5,6 @@ FactoryGirl.define do
     url Faker::Internet.url
     title Faker::Lorem.word
     body Faker::Lorem.paragraph
-    assocation  :user, factory: :user
+    association  :user, factory: :user
   end
 end
