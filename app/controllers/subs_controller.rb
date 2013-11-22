@@ -32,6 +32,7 @@ class SubsController < ApplicationController
     else
       # Ensures we have 5 links, regardless of how many links were filled out.
       # Otherwise the :new page will only have as many link fields as filled_out_links
+      flash.now[:errors] = @sub.errors.full_messages
       (5 - @sub.links.length).times { @sub.links.new }
       render :new
     end
@@ -41,6 +42,7 @@ class SubsController < ApplicationController
     if @sub.update_attributes(params[:sub])
       redirect_to @sub
     else
+      flash.now[:errors] = @sub.errors.full_messages
       render :edit
     end
   end
@@ -51,9 +53,7 @@ class SubsController < ApplicationController
 
   private
     def user_owns_sub?
-      unless @sub.moderator == current_user
-        redirect_to subs_url
-      end
+      redirect_to subs_url unless @sub.moderator == current_user
     end
 
     def sub_exists?

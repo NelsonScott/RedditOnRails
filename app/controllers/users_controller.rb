@@ -14,12 +14,18 @@ class UsersController < ApplicationController
       login_user!(@user)
       redirect_to @user
     else
-      flash[:errors] << @user.errors.full_messages
+      flash[:errors] = @user.errors.full_messages
       render :new
     end
   end
 
   def show
-    @user = User.find(params[:id])
+    @user = User.find_by_id(params[:id])
+
+    if @user
+      render :show
+    else
+      redirect_to subs_url
+    end
   end
 end

@@ -18,6 +18,7 @@ class LinksController < ApplicationController
       redirect_to @link
     else
       @subs = Sub.all
+      flash.now[:errors] = @link.errors.full_messages
       render :new
     end
   end
@@ -30,6 +31,7 @@ class LinksController < ApplicationController
     if @link.update_attributes(params[:link])
       redirect_to @link
     else
+      flash.now[:errors] = @link.errors.full_messages
       render :edit
     end
   end

@@ -9,6 +9,7 @@ class CommentsController < ApplicationController
     if @comment.save
       redirect_to @link
     else
+      flash[:errors] = @comment.errors.full_messages
       redirect_to new_link_comment_url(params[:link_id])
     end
   end
@@ -19,5 +20,10 @@ class CommentsController < ApplicationController
 
   def show
     @comment = Comment.find_by_id(params[:id])
+    if @comment
+      render :show
+    else
+      redirect_to subs_url
+    end
   end
 end

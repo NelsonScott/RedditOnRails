@@ -9,6 +9,12 @@
   <%= link_to "Create a sub!", new_sub_url %> | <%= link_to "My Page", current_user %> | <%= link_to "All Subs", subs_url %><br><br>
 <% end %>
 
+<% if flash[:errors] %>
+  <% flash[:errors].each do |error| %>
+    <%= error %>
+  <% end %>
+<% end %>
+
 <%= yield %>
 
 </body>
