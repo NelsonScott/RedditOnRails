@@ -8,9 +8,11 @@ describe Sub do
     expect(sub.moderator).to be(user)
   end
 
-  it "does not allow moderator_id to be mass assigned" do
-    expect { Sub.new(moderator_id: 1) }.to raise_error(ActiveModel::MassAssignmentSecurity::Error)
-  end
+  # it "does not allow moderator_id to be mass assigned" do
+  #   expect { Sub.new(moderator_id: 1) }.to raise_error(ActiveModel::MassAssignmentSecurity::Error)
+  # end
+
+  it { should_not allow_mass_assignment_of :moderator_id }
 
   it { should belong_to(:moderator) }
 
