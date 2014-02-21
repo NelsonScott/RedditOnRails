@@ -8,7 +8,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(params[:user])
+    @user = User.new(user_params)
 
     if @user.save
       login_user!(@user)
@@ -27,5 +27,10 @@ class UsersController < ApplicationController
     else
       redirect_to subs_url
     end
+  end
+
+  private
+  def user_params
+    params.require(:user).permit(:name, :password, :session_token)
   end
 end

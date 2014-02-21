@@ -1,5 +1,4 @@
 class Link < ActiveRecord::Base
-  attr_accessible :url, :title, :body, :user_id, :sub_ids
 
   validates :url, presence: true
   validates :title, presence: true

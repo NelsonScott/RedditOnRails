@@ -3,7 +3,7 @@ class CommentsController < ApplicationController
 
   def create
     @link = Link.find(params[:link_id])
-    @comment = @link.comments.build(params[:comment])
+    @comment = @link.comments.build(comment_params)
     @comment.user = current_user
 
     if @comment.save
@@ -25,5 +25,10 @@ class CommentsController < ApplicationController
     else
       redirect_to subs_url
     end
+  end
+
+  private
+  def comment_params
+    params.require(:comment).permit(:body, :parent_comment_id)
   end
 end

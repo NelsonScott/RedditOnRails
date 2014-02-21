@@ -13,7 +13,7 @@ class LinksController < ApplicationController
   end
 
   def create
-    @link = current_user.links.new(params[:link])
+    @link = current_user.links.new(link_params)
     if @link.save
       redirect_to @link
     else
@@ -28,7 +28,7 @@ class LinksController < ApplicationController
   end
 
   def update
-    if @link.update_attributes(params[:link])
+    if @link.update_attributes(link_params)
       redirect_to @link
     else
       flash.now[:errors] = @link.errors.full_messages
@@ -65,4 +65,9 @@ class LinksController < ApplicationController
     def user_owns_link?
       redirect_to @link unless @link.user == current_user
     end
+
+  private
+  def link_params
+    params.require(:link).permit(:url, :title, :body, :user_id, :sub_ids)
+  end
 end

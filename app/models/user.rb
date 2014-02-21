@@ -1,5 +1,4 @@
 class User < ActiveRecord::Base
-  attr_accessible :name, :password, :session_token
   after_initialize :ensure_session_token
 
   validates :name, presence: true

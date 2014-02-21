@@ -19,7 +19,7 @@ class SubsController < ApplicationController
   end
 
   def create
-    @sub = current_user.subs.new(params[:sub])
+    @sub = current_user.subs.new(sub_params)
     filled_out_links = params[:links].values.reject { |value| value[:url].empty? || value[:title].empty? }
 
     filled_out_links.each do |link_params|
@@ -39,7 +39,7 @@ class SubsController < ApplicationController
   end
 
   def update
-    if @sub.update_attributes(params[:sub])
+    if @sub.update_attributes(sub_params)
       redirect_to @sub
     else
       flash.now[:errors] = @sub.errors.full_messages
@@ -60,4 +60,9 @@ class SubsController < ApplicationController
       @sub = Sub.includes(:links).find_by_id(params[:id])
       redirect_to subs_url unless @sub
     end
+
+  private
+  def sub_params
+    params.require(:sub).permit(:name)
+  end
 end
