@@ -1,4 +1,5 @@
 <form action="<%= link_comments_url(params[:link_id]) %>" method="POST">
+  <input type="hidden" name="authenticity_token" id="" value="<%= form_authenticity_token %>" />
   <textarea name="comment[body]"></textarea><br>
   <input type="submit">
   <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">

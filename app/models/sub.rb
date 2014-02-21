@@ -1,5 +1,4 @@
 class Sub < ActiveRecord::Base
-
   validates :name, presence: true
   validates :moderator, presence: true
 
@@ -7,3 +6,4 @@ class Sub < ActiveRecord::Base
   has_many :link_subs, dependent: :destroy
   has_many :links, through: :link_subs, source: :link
 end
+

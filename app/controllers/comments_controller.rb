@@ -32,3 +32,4 @@ class CommentsController < ApplicationController
     params.require(:comment).permit(:body, :parent_comment_id)
   end
 end
+

@@ -43,6 +43,8 @@ end
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
+gem 'bcrypt-ruby', :require => 'bcrypt'
+group :development, :test do
   gem 'factory_girl_rails'
   gem 'better_errors'
   gem 'binding_of_caller'
@@ -50,7 +52,7 @@ end
   gem 'capybara'
   gem 'launchy'
   gem 'shoulda-matchers'
-gem 'bcrypt-ruby', :require => 'bcrypt'
-group :development, :test do
   gem 'rspec-rails'
+  gem 'debugger'
 end
+

@@ -20,7 +20,9 @@ class SubsController < ApplicationController
 
   def create
     @sub = current_user.subs.new(sub_params)
-    filled_out_links = params[:links].values.reject { |value| value[:url].empty? || value[:title].empty? }
+    filled_out_links = params[:links].values.reject do |value|
+      value[:url].empty? || value[:title].empty?
+    end
 
     filled_out_links.each do |link_params|
       @sub.links.new(link_params.merge(user_id: current_user.id))
@@ -52,17 +54,17 @@ class SubsController < ApplicationController
   end
 
   private
-    def user_owns_sub?
-      redirect_to subs_url unless @sub.moderator == current_user
-    end
+  def user_owns_sub?
+    redirect_to subs_url unless @sub.moderator == current_user
+  end
 
-    def sub_exists?
-      @sub = Sub.includes(:links).find_by_id(params[:id])
-      redirect_to subs_url unless @sub
-    end
+  def sub_exists?
+    @sub = Sub.includes(:links).find_by_id(params[:id])
+    redirect_to subs_url unless @sub
+  end
 
-  private
   def sub_params
-    params.require(:sub).permit(:name)
+    params.require(:sub).permit(:name, :links => [:url, :title, :body])
   end
 end
+

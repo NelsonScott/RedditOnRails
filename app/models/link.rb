@@ -1,9 +1,7 @@
 class Link < ActiveRecord::Base
-
   validates :url, presence: true
   validates :title, presence: true
   validates :user, presence: true
-  validates :subs, presence: true
 
   belongs_to :user, inverse_of: :links
   has_many :link_subs, dependent: :destroy
@@ -26,3 +24,4 @@ class Link < ActiveRecord::Base
     self.user_votes.sum(:value)
   end
 end
+

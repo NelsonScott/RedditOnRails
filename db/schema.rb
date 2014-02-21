@@ -9,56 +9,56 @@
 # from scratch. The latter is a flawed and unsustainable approach (the more migrations
 # you'll amass, the slower it'll run and the greater likelihood for issues).
 #
-# It's strongly recommended to check this file into your version control system.
+# It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131117152902) do
+ActiveRecord::Schema.define(version: 20131117152902) do
 
-  create_table "comments", :force => true do |t|
+  create_table "comments", force: true do |t|
     t.text     "body"
     t.integer  "parent_comment_id"
     t.integer  "link_id"
     t.integer  "user_id"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  create_table "link_subs", :force => true do |t|
+  create_table "link_subs", force: true do |t|
     t.integer  "link_id"
     t.integer  "sub_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  create_table "links", :force => true do |t|
+  create_table "links", force: true do |t|
     t.string   "url"
     t.text     "title"
     t.text     "body"
     t.integer  "user_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  create_table "subs", :force => true do |t|
+  create_table "subs", force: true do |t|
     t.integer  "moderator_id"
     t.string   "name"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  create_table "user_votes", :force => true do |t|
+  create_table "user_votes", force: true do |t|
     t.integer  "user_id"
     t.integer  "link_id"
     t.integer  "value"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  create_table "users", :force => true do |t|
+  create_table "users", force: true do |t|
     t.string   "name"
     t.string   "password_digest"
     t.string   "session_token"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end

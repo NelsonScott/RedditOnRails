@@ -1,5 +1,4 @@
 class Comment < ActiveRecord::Base
-
   validates :body, presence: true
   validates :user, presence: true
   validates :link, presence: true
@@ -13,3 +12,4 @@ class Comment < ActiveRecord::Base
             primary_key: :id)
   belongs_to :parent_comment, class_name: "Comment", foreign_key: :parent_comment_id, primary_key: :id
 end
+
