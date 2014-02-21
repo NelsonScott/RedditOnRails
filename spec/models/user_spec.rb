@@ -6,8 +6,6 @@ describe User do
   #   expect { User.new(password_digest: "password") }.to raise_error(ActiveModel::MassAssignmentSecurity::Error)
   # end
 
-  it { should_not allow_mass_assignment_of :password_digest }
-
   it "should create a password digest when a password is given" do
     user = FactoryGirl.build(:user)
 

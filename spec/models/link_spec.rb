@@ -31,7 +31,11 @@ describe Link do
     child_child_comment.user = moderator
     child_child_comment.save
 
-    expect(link.comments_by_parent).to eq({ nil => [comment], comment.id => [child_comment], child_comment.id => [child_child_comment] })
+    expect(link.comments_by_parent).to eq({
+      nil => [comment],
+      comment.id => [child_comment],
+      child_comment.id => [child_child_comment]
+    })
   end
 
   it { should have_many(:comments) }
