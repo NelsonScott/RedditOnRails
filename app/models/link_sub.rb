@@ -1,5 +1,7 @@
 class LinkSub < ActiveRecord::Base
-  belongs_to :link
-  belongs_to :sub
+  validates :link, :sub, presence: true
+
+  belongs_to :link, inverse_of: :link_subs
+  belongs_to :sub, inverse_of: :link_subs
 end
 

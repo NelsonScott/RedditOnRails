@@ -1,5 +1,5 @@
 class CommentsController < ApplicationController
-  before_filter :authenticate_user!, only: [:new, :create]
+  before_action :require_signed_in!, only: [:new, :create]
 
   def create
     @link = Link.find(params[:link_id])

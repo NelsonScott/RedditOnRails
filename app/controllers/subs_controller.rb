@@ -1,7 +1,7 @@
 class SubsController < ApplicationController
-  before_filter :authenticate_user!, except: [:index, :show]
-  before_filter :sub_exists?, only: [:edit, :update, :show]
-  before_filter :user_owns_sub?, only: [:edit, :update]
+  before_action :require_signed_in!, except: [:index, :show]
+  before_action :sub_exists?, only: [:edit, :update, :show]
+  before_action :user_owns_sub?, only: [:edit, :update]
 
   def index
     @subs = Sub.all

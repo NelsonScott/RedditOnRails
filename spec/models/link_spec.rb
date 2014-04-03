@@ -1,45 +1,52 @@
 require 'spec_helper'
 
 describe Link do
-  it "knows who its owner is via inverse_of" do
+
+  it { should validate_presence_of(:url) }
+  it { should validate_presence_of(:title) }
+  it { should validate_presence_of(:user) }
+
+  it { should have_many(:link_subs) }
+  it { should have_many(:subs).through(:link_subs) }
+  it { should have_many(:user_votes) }
+  it { should have_many(:comments) }
+  it { should belong_to(:user) }
+
+  it "associates with the correct link before save via inverse_of" do
     user = FactoryGirl.build(:user)
     link = user.links.new
-
     expect(link.user).to be(user)
   end
 
-  it "should create an appropriate comments hash" do
-    moderator = FactoryGirl.create(:user)
-    sub = moderator.subs.create(name: "A sub!")
+  describe "#comments_by_parent" do
 
-    link = Link.new(url: "URL", title: "TITLE")
-    link.user = moderator
-    link.subs = [sub]
-    link.save
+    def build_comment(link, moderator, parent_comment = nil)
+      comment = link.comments.new
+      comment.parent_comment = parent_comment
+      comment.user = moderator
+      comment.body = "Lorem ipsum"
+      comment.save
+      comment
+    end
 
-    comment = link.comments.build(body: "BODY")
-    comment.user = moderator
-    comment.save
+    it "builds a nested comments hash" do
+      moderator = FactoryGirl.create(:user)
+      sub = moderator.subs.create(name: "A sub!")
 
-    child_comment = comment.child_comments.build(body: "BODY 2")
-    child_comment.link = link
-    child_comment.user = moderator
-    child_comment.save
+      link = Link.new(url: "URL", title: "TITLE")
+      link.user = moderator
+      link.subs = [sub]
+      link.save!
 
-    child_child_comment = child_comment.child_comments.build(body: "BODY 3")
-    child_child_comment.link = link
-    child_child_comment.user = moderator
-    child_child_comment.save
+      comment = build_comment(link, moderator)
+      child_comment = build_comment(link, moderator, comment)
+      grand_child_comment = build_comment(link, moderator, child_comment)
 
-    expect(link.comments_by_parent).to eq({
-      nil => [comment],
-      comment.id => [child_comment],
-      child_comment.id => [child_child_comment]
-    })
+      expect(link.comments_by_parent).to eq({
+        nil => [comment],
+        comment.id => [child_comment],
+        child_comment.id => [grand_child_comment]
+      })
+    end
   end
-
-  it { should have_many(:comments) }
-  it { should have_many(:link_subs) }
-  it { should have_many(:user_votes) }
-  it { should have_many(:subs).through(:link_subs) }
 end

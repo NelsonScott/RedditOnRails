@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  before_filter :authenticate_user!, only: [:show]
-  before_filter :new_user?, only: [:new, :create]
+  before_action :require_signed_in!, only: [:show]
+  before_action :require_signed_out!, only: [:new, :create]
 
   def new
     @user = User.new
@@ -11,8 +11,8 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      login_user!(@user)
-      redirect_to @user
+      sign_in(@user)
+      redirect_to user_url(@user)
     else
       flash[:errors] = @user.errors.full_messages
       render :new
@@ -30,6 +30,7 @@ class UsersController < ApplicationController
   end
 
   private
+
   def user_params
     params.require(:user).permit(:name, :password, :session_token)
   end
