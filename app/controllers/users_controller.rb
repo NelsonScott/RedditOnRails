@@ -20,18 +20,12 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find_by_id(params[:id])
-
-    if @user
-      render :show
-    else
-      redirect_to subs_url
-    end
+    @user = User.find(params[:id])
+    render :show
   end
 
   private
-
   def user_params
-    params.require(:user).permit(:name, :password, :session_token)
+    params.require(:user).permit(:name, :password)
   end
 end

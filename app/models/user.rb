@@ -1,18 +1,19 @@
 class User < ActiveRecord::Base
   attr_reader :password
 
-  before_validation :ensure_session_token
+  after_initialize :ensure_session_token
 
-  validates :name, presence: true
-  validates :session_token, presence: true
-  validates :password_digest, presence: true
-  validates :password, :length => { :minimum => 6, :allow_nil => true }
+  validates :name, :password_digest, :session_token, presence: true
+  validates :password, length: { minimum: 6, allow_nil: true }
+  validates :session_token, :name, uniqueness: true
 
-  has_many :subs,
-           :class_name => "Sub",
-           :foreign_key => :moderator_id,
-           :primary_key => :id,
-           :inverse_of => :moderator
+  has_many(
+    :subs,
+    class_name: "Sub",
+    foreign_key: :moderator_id,
+    primary_key: :id,
+    inverse_of: :moderator
+  )
   has_many :links, inverse_of: :user
   has_many :comments, inverse_of: :user
   has_many :user_votes, inverse_of: :user
@@ -46,7 +47,7 @@ class User < ActiveRecord::Base
   private
 
   def ensure_session_token
+    # Lazy: very low probability of collision, but we should fix this.
     self.session_token ||= self.class.generate_session_token
   end
 end
-
