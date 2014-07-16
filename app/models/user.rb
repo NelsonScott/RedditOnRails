@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
     primary_key: :id,
     inverse_of: :moderator
   )
-  has_many :links, inverse_of: :submitter
+  has_many :posts, inverse_of: :submitter
   has_many :comments, inverse_of: :user
   has_many :user_votes, inverse_of: :user
 

@@ -5,22 +5,22 @@ class CommentsController < ApplicationController
     @comment = current_user.comments.new(comment_params)
 
     if @comment.save
-      redirect_to link_url(@comment.link_id)
+      redirect_to post_url(@comment.post_id)
     else
       flash.now[:errors] = @comment.errors.full_messages
-      redirect_to new_link_comment_url(@comment.link_id)
+      redirect_to new_post_comment_url(@comment.post_id)
     end
   end
 
   def new
-    @comment = Comment.new(link_id: params[:link_id])
+    @comment = Comment.new(post_id: params[:post_id])
     render :new
   end
 
   def show
     @comment = Comment.find_by_id(params[:id])
     @new_comment = Comment.new(
-      link_id: @comment.link_id, parent_comment_id: @comment.id
+      post_id: @comment.post_id, parent_comment_id: @comment.id
     )
 
     render :show
@@ -28,6 +28,6 @@ class CommentsController < ApplicationController
 
   private
   def comment_params
-    params.require(:comment).permit(:body, :link_id, :parent_comment_id)
+    params.require(:comment).permit(:body, :post_id, :parent_comment_id)
   end
 end

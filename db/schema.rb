@@ -19,26 +19,26 @@ ActiveRecord::Schema.define(version: 20131117152902) do
   create_table "comments", force: true do |t|
     t.text     "body",              null: false
     t.integer  "parent_comment_id"
-    t.integer  "link_id",           null: false
+    t.integer  "post_id",           null: false
     t.integer  "user_id",           null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "comments", ["link_id"], name: "index_comments_on_link_id", using: :btree
+  add_index "comments", ["post_id"], name: "index_comments_on_post_id", using: :btree
 
-  create_table "link_subs", force: true do |t|
-    t.integer  "link_id",    null: false
+  create_table "post_subs", force: true do |t|
+    t.integer  "post_id",    null: false
     t.integer  "sub_id",     null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "link_subs", ["link_id", "sub_id"], name: "index_link_subs_on_link_id_and_sub_id", unique: true, using: :btree
-  add_index "link_subs", ["link_id"], name: "index_link_subs_on_link_id", using: :btree
-  add_index "link_subs", ["sub_id"], name: "index_link_subs_on_sub_id", using: :btree
+  add_index "post_subs", ["post_id", "sub_id"], name: "index_post_subs_on_post_id_and_sub_id", unique: true, using: :btree
+  add_index "post_subs", ["post_id"], name: "index_post_subs_on_post_id", using: :btree
+  add_index "post_subs", ["sub_id"], name: "index_post_subs_on_sub_id", using: :btree
 
-  create_table "links", force: true do |t|
+  create_table "posts", force: true do |t|
     t.string   "title",      null: false
     t.string   "url"
     t.text     "content"
@@ -47,7 +47,7 @@ ActiveRecord::Schema.define(version: 20131117152902) do
     t.datetime "updated_at"
   end
 
-  add_index "links", ["user_id"], name: "index_links_on_user_id", using: :btree
+  add_index "posts", ["user_id"], name: "index_posts_on_user_id", using: :btree
 
   create_table "subs", force: true do |t|
     t.integer  "moderator_id", null: false
@@ -60,14 +60,14 @@ ActiveRecord::Schema.define(version: 20131117152902) do
 
   create_table "user_votes", force: true do |t|
     t.integer  "user_id",    null: false
-    t.integer  "link_id",    null: false
+    t.integer  "post_id",    null: false
     t.integer  "value",      null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "user_votes", ["link_id", "user_id"], name: "index_user_votes_on_link_id_and_user_id", unique: true, using: :btree
-  add_index "user_votes", ["link_id"], name: "index_user_votes_on_link_id", using: :btree
+  add_index "user_votes", ["post_id", "user_id"], name: "index_user_votes_on_post_id_and_user_id", unique: true, using: :btree
+  add_index "user_votes", ["post_id"], name: "index_user_votes_on_post_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "name",            null: false

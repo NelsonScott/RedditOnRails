@@ -3,7 +3,7 @@ RedditOnRails::Application.routes.draw do
   resources :users, only: [:new, :create]
   resources :comments, only: [:create, :show]
   resources :subs
-  resources :links do
+  resources :posts do
     resources :comments, only: [:new]
     member do
       post "downvote"

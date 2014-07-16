@@ -1,16 +1,16 @@
-class Link < ActiveRecord::Base
+class Post < ActiveRecord::Base
   validates :submitter, :title, presence: true
 
-  has_many :link_subs, inverse_of: :link, dependent: :destroy
-  has_many :subs, through: :link_subs, source: :sub
-  has_many :comments, inverse_of: :link
-  has_many :user_votes, inverse_of: :link
+  has_many :post_subs, inverse_of: :post, dependent: :destroy
+  has_many :subs, through: :post_subs, source: :sub
+  has_many :comments, inverse_of: :post
+  has_many :user_votes, inverse_of: :post
 
   belongs_to(
     :submitter,
     class_name: "User",
     foreign_key: :user_id,
-    inverse_of: :links
+    inverse_of: :posts
   )
 
   def comments_by_parent

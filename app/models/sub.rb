@@ -2,8 +2,8 @@ class Sub < ActiveRecord::Base
   validates :name, :moderator, presence: true
   validates :name, uniqueness: true
 
-  has_many :link_subs, inverse_of: :sub, dependent: :destroy
-  has_many :links, through: :link_subs, source: :link
+  has_many :post_subs, inverse_of: :sub, dependent: :destroy
+  has_many :posts, through: :post_subs, source: :post
 
   belongs_to(
     :moderator,

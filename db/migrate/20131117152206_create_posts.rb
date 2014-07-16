@@ -1,6 +1,6 @@
-class CreateLinks < ActiveRecord::Migration
+class CreatePosts < ActiveRecord::Migration
   def change
-    create_table :links do |t|
+    create_table :posts do |t|
       t.string :title, null: false
       t.string :url
       t.text :content
@@ -9,6 +9,6 @@ class CreateLinks < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index :links, :user_id
+    add_index :posts, :user_id
   end
 end

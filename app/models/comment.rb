@@ -1,7 +1,7 @@
 class Comment < ActiveRecord::Base
-  validates :body, :user, :link, presence: true
+  validates :body, :user, :post, presence: true
 
-  belongs_to :link, inverse_of: :comments
+  belongs_to :post, inverse_of: :comments
   belongs_to :user, inverse_of: :comments
 
   has_many :child_comments,
@@ -14,4 +14,3 @@ class Comment < ActiveRecord::Base
               foreign_key: :parent_comment_id,
               primary_key: :id
 end
-
