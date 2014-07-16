@@ -8,6 +8,6 @@ class CreateUserVotes < ActiveRecord::Migration
     end
 
     add_index :user_votes, :link_id
-    add_index :user_votes, [:link_id, :user_id], uniqueness: true
+    add_index :user_votes, [:link_id, :user_id], unique: true
   end
 end
