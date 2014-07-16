@@ -5,8 +5,12 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+
 <% if current_user %>
-  <%= link_to "Create a sub!", new_sub_url %> | <%= link_to "My Page", current_user %> | <%= link_to "All Subs", subs_url %><br><br>
+  <%= link_to "Create a sub!", new_sub_url %> |
+  <%= link_to "My Page", current_user %> |
+  <%= link_to "All Subs", subs_url %>
+  <br><br>
 <% end %>
 
 <% if flash[:errors] %>
