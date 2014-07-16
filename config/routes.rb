@@ -6,8 +6,8 @@ RedditOnRails::Application.routes.draw do
   resources :links do
     resources :comments, only: [:create, :new, :show]
     member do
-      post "upvote"
       post "downvote"
+      post "upvote"
     end
   end
 

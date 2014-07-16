@@ -1,12 +1,16 @@
 class Link < ActiveRecord::Base
-  validates :url, :title, :user, presence: true
+  validates :title, :user, presence: true
 
   has_many :link_subs, inverse_of: :link, dependent: :destroy
   has_many :subs, through: :link_subs, source: :sub
   has_many :comments, inverse_of: :link
   has_many :user_votes, inverse_of: :link
 
-  belongs_to :user, inverse_of: :links
+  belongs_to(
+    :submitter,
+    foreign_key: :user_id
+    inverse_of: :links
+  )
 
   def comments_by_parent
     comments_by_parent = Hash.new { |hash, key| hash[key] = [] }
@@ -22,4 +26,3 @@ class Link < ActiveRecord::Base
     self.user_votes.sum(:value)
   end
 end
-

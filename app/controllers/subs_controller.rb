@@ -27,7 +27,7 @@ class SubsController < ApplicationController
   end
 
   def update
-    if sub.update(sub_params)
+    if @sub.update(sub_params)
       redirect_to @sub
     else
       flash.now[:errors] = @sub.errors.full_messages
@@ -42,7 +42,8 @@ class SubsController < ApplicationController
   private
   def require_user_owns_sub!
     set_sub!
-    redirect_to subs_url unless sub.moderator == current_user
+    return if @sub.moderator == current_user
+    render json: "Forbidden", status: :forbidden
   end
 
   def set_sub!

@@ -1,11 +1,10 @@
 class LinksController < ApplicationController
-  before_action :require_signed_in!, only: [:new, :create, :upvote, :downvote]
-  before_action :link_exists?, only: [:edit, :show, :update, :upvote, :downvote]
-  before_action :user_owns_link?, only: [:edit, :update]
+  before_action :require_signed_in!, except: [:show]
+  before_action :require_user_owns_link!, only: [:edit, :update]
 
   def new
     @link = Link.new
-    @subs = Sub.all
+    render :new
   end
 
   def show
@@ -15,61 +14,60 @@ class LinksController < ApplicationController
   def create
     @link = current_user.links.new(link_params)
     if @link.save
-      redirect_to @link
+      redirect_to link_url(@link)
     else
-      @subs = Sub.all
       flash.now[:errors] = @link.errors.full_messages
       render :new
     end
   end
 
   def edit
-    @subs = Sub.all
+    render :edit
   end
 
   def update
-    if @link.update_attributes(link_params)
-      redirect_to @link
+    if @link.update(link_params)
+      redirect_to link_url(@link)
     else
       flash.now[:errors] = @link.errors.full_messages
       render :edit
     end
   end
 
-  def upvote
-    vote(1)
-  end
-
-  def downvote
-    vote(-1)
-  end
+  def downvote; vote(-1); end
+  def upvote; vote(1); end
 
   private
+  def link_params
+    params.require(:link).permit(
+      :url, :title, :body, :user_id, sub_ids: []
+    )
+  end
 
-  def link_exists?
-    @link = Link.includes(:user_votes).find_by_id(params[:id])
-    redirect_to subs_url unless @link
+  def require_user_owns_link!
+    set_link!
+    return if @link.submitter == current_user
+    render json: "Forbidden", status: :forbidden
+  end
+
+  def set_link!
+    @link ||= Link.find(params[:id])
   end
 
   def vote(direction)
-    @user_vote = UserVote.find_by_link_id_and_user_id(@link.id, current_user.id)
+    @user_vote = UserVote.find_by(
+      link_id: @link.id, user_id: current_user.id
+    )
 
     if @user_vote
-      @user_vote.value == direction ? @user_vote.update_attributes(value: 0) : @user_vote.update_attributes(value: direction)
+      value = @user_vote.value == direction ? 0 : direction
+      @user_vote.update(value: value)
     else
-      @link.user_votes.create(user_id: current_user.id, value: direction)
+      @link.user_votes.create!(
+        user_id: current_user.id, value: direction
+      )
     end
 
-    redirect_to @link
-  end
-
-  def user_owns_link?
-    redirect_to @link unless @link.user == current_user
-  end
-
-  private
-
-  def link_params
-    params.require(:link).permit(:url, :title, :body, :user_id, {:sub_ids => []})
+    redirect_to link_url(@link)
   end
 end
