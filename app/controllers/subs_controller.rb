@@ -13,6 +13,7 @@ class SubsController < ApplicationController
   end
 
   def show
+    @sub = Sub.find(params[:id])
     render :show
   end
 
@@ -27,6 +28,7 @@ class SubsController < ApplicationController
   end
 
   def update
+    @sub = Sub.find(params[:id])
     if @sub.update(sub_params)
       redirect_to @sub
     else
@@ -36,18 +38,14 @@ class SubsController < ApplicationController
   end
 
   def edit
+    @sub = Sub.find(params[:id])
     render :edit
   end
 
   private
   def require_user_owns_sub!
-    set_sub!
-    return if @sub.moderator == current_user
+    return if Sub.find(params[:id]).moderator == current_user
     render json: "Forbidden", status: :forbidden
-  end
-
-  def set_sub!
-    @sub ||= Sub.includes(:links).find(params[:id])
   end
 
   def sub_params

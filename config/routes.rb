@@ -1,7 +1,6 @@
 RedditOnRails::Application.routes.draw do
-
   resource :session, only: [:new, :create, :destroy]
-  resources :users, only: [:new, :create, :show]
+  resources :users, only: [:new, :create]
   resources :comments, only: [:create, :show]
   resources :subs
   resources :links do
@@ -12,5 +11,5 @@ RedditOnRails::Application.routes.draw do
     end
   end
 
-  root to: "subs#index"
+  root to: redirect("/subs")
 end

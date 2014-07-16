@@ -1,5 +1,9 @@
-<h1><%= @sub.name %> | <%= link_to "Submit Link", new_link_url %></h1>
+<h1><%= @sub.name %></h1>
 
-<% @sub.links.each do |link| %>
-  (<%= link.votes %>) <%= link_to link.title, link %><br>
-<% end %>
+<%= link_to "Post New Link!", new_link_url %>
+
+<ul>
+  <% @sub.links.each do |link| %>
+    <li>(<%= link.votes %>) <%= link_to link.title, link %></li>
+  <% end %>
+</ul>

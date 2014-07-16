@@ -8,6 +8,7 @@ class LinksController < ApplicationController
   end
 
   def show
+    @link = Link.find(params[:id])
     render :show
   end
 
@@ -22,10 +23,12 @@ class LinksController < ApplicationController
   end
 
   def edit
+    @link = Link.find(params[:id])
     render :edit
   end
 
   def update
+    @link = Link.find(params[:id])
     if @link.update(link_params)
       redirect_to link_url(@link)
     else
@@ -45,16 +48,12 @@ class LinksController < ApplicationController
   end
 
   def require_user_owns_link!
-    set_link!
-    return if @link.submitter == current_user
+    return if Link.find(params[:id]).submitter == current_user
     render json: "Forbidden", status: :forbidden
   end
 
-  def set_link!
-    @link ||= Link.find(params[:id])
-  end
-
   def vote(direction)
+    @link = Link.find(params[:id])
     @user_vote = UserVote.find_by(
       link_id: @link.id, user_id: current_user.id
     )

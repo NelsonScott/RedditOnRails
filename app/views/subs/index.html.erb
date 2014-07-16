@@ -1,3 +1,7 @@
-<% @subs.each do |sub| %>
-  <%= link_to sub.name, sub %><br>
-<% end %>
+<h1>All the Subs!</h1>
+
+<ul>
+  <% @subs.each do |sub| %>
+    <li><%= link_to sub.name, sub %><br></li>
+  <% end %>
+</ul>

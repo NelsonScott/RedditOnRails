@@ -1,5 +1,5 @@
 class Link < ActiveRecord::Base
-  validates :title, :user, presence: true
+  validates :submitter, :title, presence: true
 
   has_many :link_subs, inverse_of: :link, dependent: :destroy
   has_many :subs, through: :link_subs, source: :sub
@@ -8,7 +8,8 @@ class Link < ActiveRecord::Base
 
   belongs_to(
     :submitter,
-    foreign_key: :user_id
+    class_name: "User",
+    foreign_key: :user_id,
     inverse_of: :links
   )
 

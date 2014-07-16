@@ -1,10 +1,10 @@
 <p>
-  <%= link_to comment.body, link_comment_url(comment.id) %>
+  <%= link_to comment.body, comment_url(comment.id) %>
 </p>
 
 <ul>
   <% comments_by_parent[comment.id].each do |child_comment| %>
-    <li><%= render "comments/comment",
+    <li><%= render("comments/comment",
             comment: child_comment,
             comments_by_parent: comments_by_parent) %></li>
   <% end %>

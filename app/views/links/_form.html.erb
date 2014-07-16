@@ -1,4 +1,4 @@
-<% action_url = link.persisted? ? link_url(url) : links_url %>
+<% action_url = link.persisted? ? link_url(link) : links_url %>
 <% http_method = link.persisted? ? "PATCH" : "POST" %>
 
 <form action="<%= action_url %>" method="POST">
@@ -9,20 +9,20 @@
     value="<%= form_authenticity_token %>">
 
   <label>
-    URL:
-    <input name="link[url]" value="<%= link.url %>">
-  </label>
-  <br>
-
-  <label>
     Title:
     <input name="link[title]" value="<%= link.title %>">
   </label>
   <br>
 
   <label>
-    Body:
-    <input name="link[body]" value="<%= link.body %>">
+    URL:
+    <input name="link[url]" value="<%= link.url %>">
+  </label>
+  <br>
+
+  <label>
+    Content:
+    <textarea name="link[content]"><%= link.content %></textarea>
   </label>
   <br>
 

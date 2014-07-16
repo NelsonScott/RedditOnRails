@@ -13,7 +13,11 @@
     name="comment[parent_comment_id]"
     value="<%= comment.parent_comment_id %>">
 
-  <textarea name="comment[body]"><%= comment.body %></textarea>
+  <label>
+    Body
+    <br>
+    <textarea name="comment[body]"><%= comment.body %></textarea>
+  </label>
   <br>
 
   <input type="submit">
