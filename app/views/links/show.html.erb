@@ -19,9 +19,11 @@
 
 <ul>
   <% comments_by_parent = @link.comments_by_parent %>
-  <% comments_by_parent[nil].each do |top_level_comments| %>
+  <% comments_by_parent[nil].each do |top_level_comment| %>
     <li>
-      <%= comment_partial(top_level_comments, comments_by_parent) %>
+      <%= render "comments/comment",
+          comment: top_level_comment,
+          comments_by_parent: comments_by_parent) %>
     </li>
   <% end %>
 </ul>

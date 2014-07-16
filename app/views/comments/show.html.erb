@@ -1,9 +1,6 @@
-<%= @comment.body %> by <%= @comment.user.name %><br><br>
+<%= @comment.body %> by <%= @comment.user.name %>
+<br><br>
 
-Reply to this comment:
-<form action="<%= link_comments_url(params[:link_id]) %>" method="POST">
-  <textarea name="comment[body]"></textarea><br>
-  <input type="submit">
-  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-  <input type="hidden" name="comment[parent_comment_id]" value="<%= params[:id] %>">
-</form>
+<b>Reply to this comment:</b>
+<%= render "form",
+    comment: Comment.new(parent_comment_id: @comment.id) %>

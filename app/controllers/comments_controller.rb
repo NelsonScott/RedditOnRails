@@ -2,15 +2,13 @@ class CommentsController < ApplicationController
   before_action :require_signed_in!, only: [:new, :create]
 
   def create
-    @link = Link.find(params[:link_id])
-    @comment = @link.comments.build(comment_params)
-    @comment.user = current_user
+    @link = current_user.comments.new(comment_params)
 
     if @comment.save
-      redirect_to @link
+      redirect_to link_url(@current.link_id)
     else
       flash[:errors] = @comment.errors.full_messages
-      redirect_to new_link_comment_url(params[:link_id])
+      redirect_to new_link_comment_url(@comment.link_id)
     end
   end
 
@@ -29,7 +27,6 @@ class CommentsController < ApplicationController
 
   private
   def comment_params
-    params.require(:comment).permit(:body, :parent_comment_id)
+    params.require(:comment).permit(:body, :link_id, :parent_comment_id)
   end
 end
-
