@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
     inverse_of: :moderator
   )
   has_many :posts, inverse_of: :author
-  has_many :comments, inverse_of: :user
+  has_many :comments, inverse_of: :author
   has_many :user_votes, inverse_of: :user
 
   def self.find_by_credentials(name, password)
