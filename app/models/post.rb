@@ -1,5 +1,5 @@
 class Post < ActiveRecord::Base
-  validates :submitter, :title, presence: true
+  validates :author, :title, presence: true
 
   has_many :post_subs, inverse_of: :post, dependent: :destroy
   has_many :subs, through: :post_subs, source: :sub
@@ -7,7 +7,7 @@ class Post < ActiveRecord::Base
   has_many :user_votes, inverse_of: :post
 
   belongs_to(
-    :submitter,
+    :author,
     class_name: "User",
     foreign_key: :user_id,
     inverse_of: :posts

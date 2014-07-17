@@ -48,7 +48,7 @@ class PostsController < ApplicationController
   end
 
   def require_user_owns_post!
-    return if Post.find(params[:id]).submitter == current_user
+    return if Post.find(params[:id]).author == current_user
     render json: "Forbidden", status: :forbidden
   end
 

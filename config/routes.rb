@@ -2,7 +2,7 @@ RedditOnRails::Application.routes.draw do
   resource :session, only: [:new, :create, :destroy]
   resources :users, only: [:new, :create]
   resources :comments, only: [:create, :show]
-  resources :subs
+  resources :subs, except: [:destroy]
   resources :posts do
     resources :comments, only: [:new]
     member do
