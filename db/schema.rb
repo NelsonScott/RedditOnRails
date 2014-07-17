@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(version: 20131117152902) do
   create_table "subs", force: true do |t|
     t.integer  "moderator_id", null: false
     t.string   "name",         null: false
+    t.text     "description",  null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -1,5 +1,5 @@
 class Sub < ActiveRecord::Base
-  validates :name, :moderator, presence: true
+  validates :description, :name, :moderator, presence: true
   validates :name, uniqueness: true
 
   has_many :post_subs, inverse_of: :sub, dependent: :destroy
