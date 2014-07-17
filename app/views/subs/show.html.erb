@@ -7,3 +7,5 @@
     <li>(<%= post.votes %>) <%= link_to post.title, post %></li>
   <% end %>
 </ul>
+
+<%= link_to "Edit", edit_sub_url(@sub) if @sub.moderator == current_user %>
