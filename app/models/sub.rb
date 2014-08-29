@@ -2,6 +2,7 @@ class Sub < ActiveRecord::Base
   validates :description, :name, :moderator, presence: true
   validates :name, uniqueness: true
 
+  has_many :user_votes, as: :votable, class_name: "UserVote"
   has_many :post_subs, inverse_of: :sub, dependent: :destroy
   has_many :posts, through: :post_subs, source: :post
 
@@ -12,4 +13,8 @@ class Sub < ActiveRecord::Base
     primary_key: :id,
     inverse_of: :subs
   )
+
+  def votes
+    self.user_votes.sum(:value)
+  end
 end

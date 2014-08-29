@@ -1,7 +1,14 @@
-<h1><%= @sub.name %></h1>
+<h1>
+  (<%= @sub.votes %>)
+  <%= @sub.name %>
+</h1>
+
 
 <b>Description</b>
 <p><%= @sub.description %></p>
+
+<%= button_to "Upvote", upvote_sub_url(@sub) %>
+<%= button_to "Downvote", downvote_sub_url(@sub) %>
 
 <%= link_to "Make New Post!", new_post_url %>
 

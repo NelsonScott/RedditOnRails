@@ -55,12 +55,12 @@ class PostsController < ApplicationController
   def vote(direction)
     @post = Post.find(params[:id])
     @user_vote = UserVote.find_by(
-      post_id: @post.id, user_id: current_user.id
+      votable_id: @post.id, votable_type: "Post", user_id: current_user.id
     )
 
     if @user_vote
-      value = @user_vote.value == direction ? 0 : direction
-      @user_vote.update(value: value)
+      # value = @user_vote.value == direction ? 0 : direction
+        @user_vote.update(value: direction)
     else
       @post.user_votes.create!(
         user_id: current_user.id, value: direction

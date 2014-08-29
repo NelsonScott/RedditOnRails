@@ -4,7 +4,7 @@ class Post < ActiveRecord::Base
   has_many :post_subs, inverse_of: :post, dependent: :destroy
   has_many :subs, through: :post_subs, source: :sub
   has_many :comments, inverse_of: :post
-  has_many :user_votes, inverse_of: :post
+  has_many :user_votes, as: :votable, class_name: "UserVote"
 
   belongs_to(
     :author,

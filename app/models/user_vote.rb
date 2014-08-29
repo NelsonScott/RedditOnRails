@@ -1,8 +1,8 @@
 class UserVote < ActiveRecord::Base
-  validates :user, :post, presence: true
+  validates :user, presence: true
   # don't let the user vote twice!
-  validates :post_id, uniqueness: { scope: :user_id}
+  validates :user_id, uniqueness: { scope: [:votable_id, :votable_type] }
 
+  belongs_to :votable, polymorphic: true
   belongs_to :user, inverse_of: :user_votes
-  belongs_to :post, inverse_of: :user_votes
 end

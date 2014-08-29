@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131117152902) do
+ActiveRecord::Schema.define(version: 20140829211404) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,15 +60,16 @@ ActiveRecord::Schema.define(version: 20131117152902) do
   add_index "subs", ["name"], name: "index_subs_on_name", unique: true, using: :btree
 
   create_table "user_votes", force: true do |t|
-    t.integer  "user_id",    null: false
-    t.integer  "post_id",    null: false
-    t.integer  "value",      null: false
+    t.integer  "user_id",      null: false
+    t.integer  "value",        null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "votable_id",   null: false
+    t.string   "votable_type", null: false
   end
 
-  add_index "user_votes", ["post_id", "user_id"], name: "index_user_votes_on_post_id_and_user_id", unique: true, using: :btree
-  add_index "user_votes", ["post_id"], name: "index_user_votes_on_post_id", using: :btree
+  add_index "user_votes", ["user_id", "votable_id", "votable_type"], name: "index_user_votes_on_user_id_and_votable_id_and_votable_type", unique: true, using: :btree
+  add_index "user_votes", ["votable_id", "votable_type"], name: "index_user_votes_on_votable_id_and_votable_type", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "name",            null: false

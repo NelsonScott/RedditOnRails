@@ -42,6 +42,9 @@ class SubsController < ApplicationController
     render :edit
   end
 
+  def downvote; vote(-1); end
+  def upvote; vote(1); end
+
   private
   def require_user_owns_sub!
     return if Sub.find(params[:id]).moderator == current_user
@@ -50,5 +53,23 @@ class SubsController < ApplicationController
 
   def sub_params
     params.require(:sub).permit(:name, :description)
+  end
+
+  def vote(direction)
+    @sub = Sub.find(params[:id])
+    @user_vote = UserVote.find_by(
+      votable_id: @sub.id, votable_type: "Sub", user_id: current_user.id
+    )
+
+    if @user_vote
+      # value = @user_vote.value == direction ? 0 : direction
+        @user_vote.update(value: direction)
+    else
+      @sub.user_votes.create!(
+        user_id: current_user.id, value: direction
+      )
+    end
+
+    redirect_to sub_url(@sub)
   end
 end
