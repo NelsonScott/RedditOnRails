@@ -62,8 +62,7 @@ class SubsController < ApplicationController
     )
 
     if @user_vote
-      # value = @user_vote.value == direction ? 0 : direction
-        @user_vote.update(value: direction)
+      @user_vote.update(value: direction)
     else
       @sub.user_votes.create!(
         user_id: current_user.id, value: direction
