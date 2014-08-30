@@ -1,10 +1,14 @@
 class Post < ActiveRecord::Base
+  include Votable
+
   validates :author, :title, presence: true
 
   has_many :post_subs, inverse_of: :post, dependent: :destroy
   has_many :subs, through: :post_subs, source: :sub
   has_many :comments, inverse_of: :post
-  has_many :user_votes, as: :votable, class_name: "UserVote"
+
+  # Using polymorphic assocations without a concern
+  # has_many :user_votes, as: :votable, class_name: "UserVote"
 
   belongs_to(
     :author,
@@ -23,7 +27,8 @@ class Post < ActiveRecord::Base
     comments_by_parent
   end
 
-  def votes
-    self.user_votes.sum(:value)
-  end
+  # Without a concern, we have to write a #votes method for each votable class
+  # def votes
+  #   self.user_votes.sum(:value)
+  # end
 end
