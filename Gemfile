@@ -51,5 +51,5 @@ group :test do
   gem 'capybara'
   gem 'launchy'
   gem 'shoulda-matchers'
-  gem 'rspec-rails'
+  gem 'rspec-rails', '~> 3.1.0'
 end
