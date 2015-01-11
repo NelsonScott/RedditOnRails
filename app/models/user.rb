@@ -20,7 +20,12 @@ class User < ActiveRecord::Base
 
   def self.find_by_credentials(name, password)
     user = User.find_by(name: name)
-    user.try(:is_password?, password) ? user : nil
+    
+    if !user.nil?
+      user.try(:is_password?, password) ? user : nil
+    else
+      nil
+    end
   end
 
   def self.generate_session_token
